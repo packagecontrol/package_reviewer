@@ -1,5 +1,5 @@
 import re
-from pathlib import Path
+import os
 from setuptools import setup, find_packages
 
 __all__ = (
@@ -7,12 +7,12 @@ __all__ = (
     'find_version'
 )
 
-__folder__ = Path(__file__).parent
+__folder__ = os.path.dirname(__file__)
 
 
 def read(*path_leaves, **kwargs):
     kwargs.setdefault('encoding', "utf-8")
-    with Path(__folder__, *path_leaves).open(**kwargs) as f:
+    with open(os.path.join(__folder__, *path_leaves), **kwargs) as f:
         return f.read()
 
 
@@ -49,7 +49,7 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     keywords=["sublime text", "review", "reviewer", "package", "package control"],
-    install_requires=read("requirements.in").splitlines(),
+    install_requires=read("requirements.in").splitlines() + ['pathlib;python_version<"3.4"'],
     package_data={
         # `data` directory contains reference .sublime-keymap files
         "st_package_reviewer": ["data/*", "README*"],
